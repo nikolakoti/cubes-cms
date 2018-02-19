@@ -22,7 +22,7 @@
 				Add Slide
 			</a>
 		</div>
-		<form action="" method="post" id="save-order-form" class="btn-group btn-group-sm float-right">
+		<form action="{{route('admin.index-slides.reorder')}}" method="post" id="save-order-form" class="btn-group btn-group-sm float-right">
 			{{csrf_field()}}
 			<input name="order_ids" value="">
 			<button type="button" class="btn btn-secondary" data-action="cancel-change-order">Cancel</button>
@@ -56,7 +56,7 @@
 							@endif
 						</td>
 						<td class="text-center">
-							@if($indexSlide->status == 1)
+							@if($indexSlide->isEnabled())
 							<i title="enabled" class="fa fa-check-circle text-success"></i>
 							@else
 							<i title="disabled" class="fa fa-ban text-danger"></i>
@@ -70,7 +70,7 @@
 									href="{{route('admin.index-slides.edit', ['id' => $indexSlide->id])}}"
 									title="edit"
 								><i class="fa fa-pencil"></i></a>
-								@if($indexSlide->status == 1)
+								@if($indexSlide->isEnabled())
 								<button 
 									class="btn btn-secondary" 
 									title="disable" 
@@ -130,7 +130,7 @@
 		</div>
 	</div>
 </form>
-<form method="post" action="" class="modal fade" id="delete-record-modal" tabindex="-1" role="dialog" aria-hidden="true">
+<form method="post" action="{{route('admin.index-slides.enable')}}" class="modal fade" id="enable-record-modal" tabindex="-1" role="dialog" aria-hidden="true">
 	{{csrf_field()}}
 	<input type="hidden" name="id" value="">
 	<div class="modal-dialog" role="document">
@@ -154,7 +154,7 @@
 		</div>
 	</div>
 </form>
-<form method="post" action="" class="modal fade" id="delete-record-modal" tabindex="-1" role="dialog" aria-hidden="true">
+<form method="post" action="{{route('admin.index-slides.disable')}}" class="modal fade" id="disable-record-modal" tabindex="-1" role="dialog" aria-hidden="true">
 	{{csrf_field()}}
 	<input type="hidden" name="id" value="">
 	<div class="modal-dialog" role="document">
@@ -181,6 +181,9 @@
 @endsection
 
 @push('footer_javascript')
+
+
+<script src="{{url('/skins/admin/vendor/jquery-ui/jquery-ui.min.js')}}" type="text/javascript"></script>
 <script>
 	$('#records-table').on('click', '[data-action="delete"]', function(e) {
 		
@@ -196,5 +199,52 @@
 		
 		deletePopup.modal('show');
 	});
+        
+        $('#records-table').on('click', '[data-action="enable"]', function(e) {
+		
+		e.preventDefault();
+		
+		var target = $(this);
+		
+		var id = target.attr('data-id');
+		
+		var enablePopup = $('#enable-record-modal');
+		
+		enablePopup.find('[name="id"]').val(id);
+		
+		enablePopup.modal('show');
+	});
+        
+        $('#records-table').on('click', '[data-action="disable"]', function(e) {
+		
+		e.preventDefault();
+		
+		var target = $(this);
+		
+		var id = target.attr('data-id');
+		
+		var disablePopup = $('#disable-record-modal');
+		
+		disablePopup.find('[name="id"]').val(id);
+		
+		disablePopup.modal('show');
+	});
+        
+        $('#records-table tbody').sortable({
+            
+            'update': function(e, ui) {
+                
+             var ids = $(this).sortable('toArray', {
+                 
+                 'attribute': 'data-id'
+             });
+             
+            $('#save-order-form [name="order_ids"]').val(ids.join(','));
+            }
+        });
 </script>
+@endpush
+
+@push('head_links')
+<link href="{{url('/skins/admin/vendor/jquery-ui/jquery-ui.min.css')}}" rel="stylesheet" type="text/css"/>
 @endpush

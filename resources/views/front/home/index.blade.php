@@ -9,47 +9,26 @@
 				<div class="flexslider" data-slidernav="auto" data-transition="slide">
 					<!--The Slides-->
 					<div class="slides">
-						<!--Slide #1 with caption-->
+						@foreach($indexSlides as $indexSlide)
 						<div class="slide">
 							<div class="row">
 								<div class="col-sm-6">
-									<img src="/skins/front/img/slides/slide1.png" alt="Full responsive slide image" class="animated fadeInDownBig" />
+									<img src="{{\Storage::disk('public')->url('/index-slides/' . $indexSlide->photo_filename)}}" alt="{{$indexSlide->title}}" class="animated fadeInDownBig" />
 								</div>
 								<div class="col-sm-6 caption animated fadeInUpBig">
 									<h2>
-										Najnoviji iPhone, iPad, MacBook 
+										{{$indexSlide->title}}
 									</h2>
-									<h4>
-										Sve od brenda <a href="#">Apple</a>
-									</h4>
-									<p>Odlican odnos cene i kvaliteta!</p>
-									<a href="#" class="btn btn-lg btn-primary">Naruci</a>
-
+                                                                    <div>
+                                                                        {{$indexSlide->description}}
+                                                                    </div>
+                                                                        @if(!empty($indexSlide->url))
+									<a href="{{$indexSlide->url}}" class="btn btn-lg btn-primary">More</a>
+                                                                        @endif
 								</div>
 							</div>
 						</div>
-						<!--Slide #2 with caption-->
-						<div class="slide">
-							<div class="row">
-								<div class="col-sm-6">
-									<img src="/skins/front/img/slides/slide2.png" alt="Easy to customise" />
-								</div>
-								<div class="col-sm-6 caption">
-									<h2>
-										Najbolji Samsung televizor
-									</h2>
-									<h4>
-										<i class="glyphicon glyphicon-ok"></i> Pobednik sajma tehnike
-										<br />
-										<i class="glyphicon glyphicon-ok"></i> Garancija 2 god.
-										<br />
-										<i class="glyphicon glyphicon-ok"></i> Ekstra kvalitet 
-									</h4>
-									<a href="#" class="btn btn-lg btn-primary">Detaljnije</a>
-
-								</div>
-							</div>
-						</div>
+						@endforeach
 					</div>
 				</div>
 			</section>

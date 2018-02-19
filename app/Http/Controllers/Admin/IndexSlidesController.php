@@ -77,7 +77,7 @@ class IndexSlidesController extends Controller
 			'title' => 'required',
 			'description' => 'present',
 			'url' => 'present',
-			'slide_photo_file' => 'required|image|mimes:jpeg|max:10240|dimensions:min_width=100,min_height=100',
+			'slide_photo_file' => 'image|mimes:jpeg|max:10240|dimensions:min_width=100,min_height=100',
 		]);
 		
 		$indexSlide->fill($formData);
@@ -138,4 +138,57 @@ class IndexSlidesController extends Controller
 		return redirect()->route('admin.index-slides.index')
 				->with('systemMessage', 'Slide has been deleted');
 	}
+        
+        
+        public function enable() {
+            
+            $request = request();
+		
+            $indexSlide = IndexSlide::findOrFail($request->input('id'));
+		
+            $indexSlide->status = IndexSlide::STATUS_ENABLED;
+            
+            $indexSlide->save();
+            
+            return redirect()->route('admin.index-slides.index')
+				->with('systemMessage', 'Slide has been enabled');
+            
+        }
+        
+        public function disable() {
+            
+            $request = request();
+		
+            $indexSlide = IndexSlide::findOrFail($request->input('id'));
+		
+            $indexSlide->status = IndexSlide::STATUS_DISABLED;
+            
+            $indexSlide->save();
+            
+            return redirect()->route('admin.index-slides.index')
+				->with('systemMessage', 'Slide has been disabled');
+        }
+        
+        
+        public function reorder() {
+            
+             $request = request();
+             
+             $orderIds = $request->input('order_ids');
+             
+             $ids = explode(',', $orderIds);             
+             
+             foreach ($ids as $key => $id) {
+                
+                 $indexSlide = IndexSlide::findOrFail($id);
+                 
+                 $indexSlide->order_number = $key + 1;
+                 
+                 $indexSlide->save();
+             }
+             
+             
+            return redirect()->route('admin.index-slides.index')
+				->with('systemMessage', 'Slides have been reordered');
+        }
 }
