@@ -35,8 +35,10 @@ class IndexSlidesController extends Controller
 		]);
 		
 		$indexSlide = new IndexSlide($formData);
-		
-		$indexSlide->save();
+                
+                $indexSlide->order_number = IndexSlide::count() + 1;
+                        
+                $indexSlide->save();
 		
 		if ($request->hasFile('slide_photo_file')) {
 			// file has been uploaded
@@ -122,6 +124,13 @@ class IndexSlidesController extends Controller
 		
 		//delete from database
 		$indexSlide->delete();
+                
+                IndexSlide::where('order_number', '>', $indexSlide->order_number)
+                        ->decrement('order_number');
+//                        ->update([
+//                            
+//                            'order_number' => \DB::raw('order_number - 1')
+//                        ]);
 		
 		//see if photo file exists
 		if (

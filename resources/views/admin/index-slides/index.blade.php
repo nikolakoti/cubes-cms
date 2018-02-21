@@ -22,9 +22,9 @@
 				Add Slide
 			</a>
 		</div>
-		<form action="{{route('admin.index-slides.reorder')}}" method="post" id="save-order-form" class="btn-group btn-group-sm float-right">
+		<form action="{{route('admin.index-slides.reorder')}}" method="post" id="save-order-form" class="btn-group btn-group-sm float-right" style="display: none;">
 			{{csrf_field()}}
-			<input name="order_ids" value="">
+                        <input name="order_ids" value="" type="hidden">
 			<button type="button" class="btn btn-secondary" data-action="cancel-change-order">Cancel</button>
 			<button type="submit" class="btn btn-success">Save Order</button>
 		</form>
@@ -230,7 +230,14 @@
 		disablePopup.modal('show');
 	});
         
-        $('#records-table tbody').sortable({
+        
+        
+        $('[data-action="change-order"]').on('click', function (e) {
+           
+           e.preventDefault();
+           e.stopPropagation();
+           
+           $('#records-table tbody').sortable({
             
             'update': function(e, ui) {
                 
@@ -241,6 +248,33 @@
              
             $('#save-order-form [name="order_ids"]').val(ids.join(','));
             }
+        });
+        
+        var ids = $('#records-table tbody').sortable('toArray', { 
+                 
+                 'attribute': 'data-id'
+             });
+             
+            $('#save-order-form [name="order_ids"]').val(ids.join(','));
+        
+        $('#list-menu').hide();
+        
+        $('#save-order-form').show();
+           
+        });
+        
+        $('[data-action="cancel-change-order"]').on('click', function(e) {
+            
+             e.preventDefault();
+             e.stopPropagation();
+            
+            $('#list-menu').show();
+        
+            $('#save-order-form').hide();
+            
+            $('#records-table tbody').sortable('cancel');
+            
+            $('#records-table tbody').sortable('destroy');
         });
 </script>
 @endpush
