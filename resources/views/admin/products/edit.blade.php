@@ -290,7 +290,7 @@ $('#row-form [name="specification"]').ckeditor({
     'bodyClass': 'block',
     'allowedContent': true,
     //'forcePasteAsPlainText': true,
-    //'extraPlugins': ['embedbase', 'embed'],
+    
     'contentsCss': [
         
         "{{url('/skins/front/plugins/bootstrap/dist/css/bootstrap.min.css')}}",
@@ -319,7 +319,9 @@ $('#row-form [name="specification"]').ckeditor({
         {name: 'about', groups: ['about']}
     ],
     
-    'removeButtons': 'Save,Print,Scayt,Form,Checkbox,Radio,TextField,Textarea,Select,Button,ImageButton,HiddenField,Anchor,Flash,Iframe'
+    'removeButtons': 'Save,Print,Scayt,Form,Checkbox,Radio,TextField,Textarea,Select,Button,ImageButton,HiddenField,Anchor,Iframe',
+    
+    'filebrowserBrowseUrl': "{{route('admin.filemanager.popup')}}"
 });
 </script>
 

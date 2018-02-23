@@ -138,5 +138,7 @@ Route::middleware('auth')
         Route::post('/index-slides/disable', 'IndexSlidesController@disable')->name('admin.index-slides.disable');
         Route::post('/index-slides/reorder', 'IndexSlidesController@reorder')->name('admin.index-slides.reorder');
 	
-	
+	Route::get('/filemanager', 'FileManagerController@index')->name('admin.filemanager.index');
+        Route::get('/filemanager/popup', 'FileManagerController@popup')->name('admin.filemanager.popup');
+        Route::any('/filemanager/connector', 'FileManagerController@connector')->name('admin.filemanager.connector');
 });
