@@ -22,6 +22,9 @@ Route::get('/contact-us', 'ContactController@show')->name('contact-us');
 Route::post('/contact-us', 'ContactController@process');
 
 
+Route::get('/page/{id}/{slug?}', 'StaticPagesController@page')->name('static-page');
+
+
 Auth::routes();
 
 // CMS Admin routes
