@@ -14,6 +14,27 @@ class StaticPage extends Model
 		'parent_id', 'short_title', 'title', 'description', 'photo_filename', 'body',
 		'status', 'order_number'
 	];
+    
+        public function childPages() {
+            
+            return $this->hasMany(self::class, 'parent_id');
+        }
+        
+        public function parentPage() {
+            
+            return $this->belongsTo(self::class, 'parent_id');
+        }
+        
+        //scopes
+        public function scopeEnabled($query) {
+            
+            return $query->where('status', '=', self::STATUS_ENABLED);
+        }
+        
+        public function scopeRootpages($query) {
+            
+            return $query->where('parent_id', '=', 0);
+        }
 	
 	public function isEnabled() {
 		return $this->status == 1;
@@ -26,5 +47,26 @@ class StaticPage extends Model
                 'id' => $this->id,
                 'slug' => str_slug($this->title)
             ]);
+        }
+        
+        
+        /**
+         * 
+         * @return \App\Models\StaticPage[] Breadcrumb pages including page itself
+         */
+        public function breadcrumbs() {
+            
+        $breadCrumbs = [$this];
+        
+        $parentPage = $this->parentPage; 
+    
+        while($parentPage !== null) {
+            
+            array_unshift($breadCrumbs, $parentPage);
+            
+            $parentPage = $parentPage->parentPage;
+        }
+        
+        return $breadCrumbs;
         }
 }

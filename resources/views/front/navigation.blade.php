@@ -35,11 +35,10 @@
 											@endforeach
 										</ul>
 									</li>
-									@foreach(\App\Models\StaticPage::where('parent_id', '=', 0)->get() as $rootStaticPage)
+									@foreach(\App\Models\StaticPage::enabled()->rootPages()->get() as $rootStaticPage)
 									<li>
 										<a 
-                                                                                    href="{{$rootStaticPage->frontendUrl()
-                                                                                    }}"
+                                                                                    href="{{$rootStaticPage->frontendUrl()}}"
                                                                                 >
                                                                                     {{$rootStaticPage->short_title}}
                                                                                 </a>

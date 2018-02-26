@@ -12,14 +12,15 @@ class StaticPagesController extends Controller
         
         $staticPage = StaticPage::findOrFail($id);
         
-        $childPages = StaticPage::where('parent_id', '=', $staticPage->id)
-                ->where('status', '=', StaticPage::STATUS_ENABLED)
-                ->orderBy('order_number')->get();
+
+//        $childPages = StaticPage::where('parent_id', '=', $staticPage->id)
+//                ->where('status', '=', StaticPage::STATUS_ENABLED)
+//                ->orderBy('order_number')->get();
         
         return view('front.static-pages.page', [
             
             'staticPage' => $staticPage,
-            'childPages' => $childPages
+  //          'childPages' => $childPages
         ]);
         
     }

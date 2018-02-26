@@ -18,9 +18,13 @@
 		<div id="content" class="demos">
 			<div class="container">
 				<ul class="breadcrumb">
-					<li><a href="#">Page1</a></li>
-					<li><a href="#">Page2</a></li>
-					<li class="active">Page3</li>
+                                        @foreach($staticPage->breadcrumbs() as $breadcrumbPage)
+					<li><a href="{{$breadcrumbPage->frontendUrl()}}">
+                                                {{$breadcrumbPage->short_title}}
+                                            </a>
+                                        </li>
+                                        @endforeach
+					
 				</ul>
 				<div class="row">
 					<div class="col-md-8 blog-post">
@@ -48,7 +52,7 @@
 								
 								<ul class="nav nav-list secondary-nav">
                                                                     
-                                                                        @foreach($childPages as $childPage)
+                                                                        @foreach($staticPage->childPages()->enabled()->get() as $childPage)
 									<li>
 										<a 
                                                                                     href="{{$childPage->frontendUrl()}}"
