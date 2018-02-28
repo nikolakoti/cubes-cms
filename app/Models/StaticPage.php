@@ -14,7 +14,8 @@ class StaticPage extends Model
 		'parent_id', 'short_title', 'title', 'description', 'photo_filename', 'body',
 		'status', 'order_number'
 	];
-    
+        
+        //relations
         public function childPages() {
             
             return $this->hasMany(self::class, 'parent_id');
@@ -37,7 +38,7 @@ class StaticPage extends Model
         }
 	
 	public function isEnabled() {
-		return $this->status == 1;
+		return $this->status == self::STATUS_ENABLED;
 	}
         
         public function frontendUrl() {
