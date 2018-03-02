@@ -24,6 +24,11 @@ Route::post('/contact-us', 'ContactController@process');
 
 Route::get('/page/{id}/{slug?}', 'StaticPagesController@page')->name('static-page');
 
+Route::get('shopping-cart', 'ShoppingCartController@index')->name('shopping-cart');
+Route::post('shopping-cart/add-product', 'ShoppingCartController@addProduct')->name('shopping-cart.add-product');
+Route::post('shopping-cart/remove-product', 'ShoppingCartController@removeProduct')->name('shopping-cart.remove-product');
+
+
 
 Auth::routes();
 
@@ -151,7 +156,7 @@ Route::middleware('auth')
         Route::get('/static-pages/list/{parentId?}', 'StaticPagesController@index')->name('admin.static-pages.index');
 	
 	Route::get('/static-pages/add/{parentId?}', 'StaticPagesController@add')->name('admin.static-pages.add');
-	Route::post('/index-slides/add/{parentId?}', 'StaticPagesController@insert');
+	Route::post('/static-pages/add/{parentId?}', 'StaticPagesController@insert');
 			
 	Route::get('/static-pages/edit/{id}', 'StaticPagesController@edit')->name('admin.static-pages.edit');
 	Route::post('/static-pages/edit/{id}', 'StaticPagesController@update');

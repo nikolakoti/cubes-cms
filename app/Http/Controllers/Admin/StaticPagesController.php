@@ -86,6 +86,14 @@ class StaticPagesController extends Controller
 			
 			$staticPage->photo_filename = $newFileName;
 			$staticPage->save();
+                        
+                        $photoFilePath = public_path('/storage/static-pages/' . $newFileName);
+                        
+                        $img = \Image::make($photoFilePath);
+                        
+                        $img->fit(750, 480);
+                        
+                        $img->save();
 		}
 		
 		return redirect()->route('admin.static-pages.index', [
@@ -146,6 +154,14 @@ class StaticPagesController extends Controller
 			//update new file name in database
 			$staticPage->photo_filename = $newFileName;
 			$staticPage->save();
+                        
+                         $photoFilePath = public_path('/storage/static-pages/' . $newFileName);
+                        
+                        $img = \Image::make($photoFilePath);
+                        
+                        $img->fit(750, 480);
+                        
+                        $img->save();
 		}
 		
 		
