@@ -29,6 +29,7 @@ Route::post('/shopping-cart/add-product', 'ShoppingCartController@addProduct')->
 Route::post('/shopping-cart/remove-product', 'ShoppingCartController@removeProduct')->name('shopping-cart.remove-product');
 
 Route::get('/checkout', 'CheckoutController@index')->name('checkout');
+Route::post('/checkout', 'CheckoutController@process');
 Route::get('/checkout/confirmation', 'CheckoutController@confirmation')->name('checkout.confirmation');
 Route::get('/checkout/finish', 'CheckoutController@finish')->name('checkout.finish');
 

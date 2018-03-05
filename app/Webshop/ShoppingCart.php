@@ -67,7 +67,7 @@ class ShoppingCart {
             
             $newShoppingCartItem->setProductPhotoUrl($product->photoUrl());
             
-            $newShoppingCartItem->setQuantity($product->quantity);
+            $newShoppingCartItem->setQuantity($quantity);
             
             $this->items[$product->id] = $newShoppingCartItem; 
         } 
@@ -103,9 +103,9 @@ class ShoppingCart {
             
             $total += $item->subtotal();
             
-            return $total;
+            
         }
         
-        
+        return $total;
     }
 }
