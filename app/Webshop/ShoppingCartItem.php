@@ -70,6 +70,16 @@ class ShoppingCartItem {
     }
     
     
+    public function increaseQuantity($quantity) {
+        
+        $this->quantity += $quantity;
+        
+        return $this;
+    }
     
+    public function subtotal() {
+        
+        return $this->quantity * $this->productPrice;
+    }
 
 }

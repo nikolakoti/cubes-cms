@@ -17,6 +17,25 @@ use App\Models\Product;
  */
 class ShoppingCart {
     
+    /*
+     */
+    public static function getCartFromSession() {
+        
+        if (session()->exists('shopping-cart')) {
+            
+            $shoppingCart = session()->get('shopping-cart');
+        
+                    
+        } else {
+            
+            $shoppingCart = new ShoppingCart();
+            
+            session()->put('shopping-cart', $shoppingCart);
+        }
+        
+        return $shoppingCart;
+    }
+    
     
     /*
      * @var \App\Webshop\ShoppingCartItem[]
@@ -32,7 +51,9 @@ class ShoppingCart {
         
         if (isset($this->items[$product->id])) {
             
+            $existingShoppingCartItem = $this->items[$product->id];
             
+            $existingShoppingCartItem->increaseQuantity($quantity);
             
         } else {
             
@@ -53,4 +74,38 @@ class ShoppingCart {
         
     }
     
+    public function removeProduct($productId) {
+        
+        if (isset($this->items[$productId])) {
+        
+        unset($this->items[$productId]);
+        
+        }
+        return $this;
+    }
+    
+    
+    public function itemsCount() {
+        
+        return count($this->items);
+    }
+    
+    public function isEmpty() {
+        
+        return $this->itemsCount() == 0;
+    }
+    
+    public function total() {
+        
+        $total = 0;
+        
+        foreach ($this->items as $item) {
+            
+            $total += $item->subtotal();
+            
+            return $total;
+        }
+        
+        
+    }
 }

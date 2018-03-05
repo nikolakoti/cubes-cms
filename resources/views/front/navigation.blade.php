@@ -51,7 +51,7 @@
                                                                             <a href="{{route('shopping-cart')}}">
                                                                                 
                                                                                 <span class="badge badge-info">
-                                                                                    0
+                                                                                    {{\App\Webshop\ShoppingCart::getCartFromSession()->itemsCount()}}
                                                                                     <i class="fa fa-shopping-cart"></i>
                                                                                 </span>
                                                                                 

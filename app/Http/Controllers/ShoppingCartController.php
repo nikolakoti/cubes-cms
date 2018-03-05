@@ -6,11 +6,18 @@ use Illuminate\Http\Request;
 
 use App\Models\Product;
 
+use App\Webshop\ShoppingCart;
+
 class ShoppingCartController extends Controller
 {
     public function index() {
         
-        return view('front.shopping-cart.index');
+       $shoppingCart = ShoppingCart::getCartFromSession();
+        
+        return view('front.shopping-cart.index', [
+            'shoppingCart' => $shoppingCart
+            
+        ]);
     }
     
     public function addProduct() {
@@ -26,7 +33,16 @@ class ShoppingCartController extends Controller
         
         $product = Product::findOrFail($formData['product_id']);
         
+        
+        
         //add to cart
+        
+         $shoppingCart = ShoppingCart::getCartFromSession();
+         
+      
+         $shoppingCart->addProduct($product, $formData['quantity']);
+        
+         
         
         return redirect()->route('shopping-cart')
                 ->with('systemMessage', 'Product has been added to cart');
@@ -43,7 +59,7 @@ class ShoppingCartController extends Controller
             
         ]);
         
-        $product = Product::findOrFail($formData['product_id']);
+        ShoppingCart::getCartFromSession()->removeProduct($formData['product_id']);
         
         return redirect()->route('shopping-cart')
                 ->with('systemMessage', 'Product has been removed from cart');
