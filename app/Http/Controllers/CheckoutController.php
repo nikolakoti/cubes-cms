@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 use App\Webshop\Checkout;
 
+use App\Webshop\ShoppingCart;
+
 class CheckoutController extends Controller
 {
     public function index() {
@@ -62,14 +64,35 @@ class CheckoutController extends Controller
     public function confirmation() {
         
         $checkout = Checkout::getCheckoutFromSession();
-        
+        $shoppingCart = ShoppingCart::getCartFromSession();
         return view('front.checkout.confirmation', [
-            'checkout' => $checkout
+            'checkout' => $checkout,
+            'shoppingCart' => $shoppingCart
         ]);
+    }
+    
+    public function confirm() {
+        
+        //create order
+        
+        
+        //clear shopping cart items
+        
+        
+        
+        
+        return redirect()->route('front.checkout.finish')
+                ->with('systemMessage', 'Congrats! Your order has been registered, we will contact you soon.');
     }
     
     public function finish() {
         
+        //read order from database
+        
+        
         return ('front.checkout.finish');
     }
+    
+    
+    
 }
